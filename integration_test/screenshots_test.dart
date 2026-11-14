@@ -101,10 +101,12 @@ void main() {
     await t.tap(find.byKey(const Key('ai_objects')));
     await settle(t, 5);
     await shot(t, '07_objects');
-    final crop = find.text('Smart crop');
+    final crop = find.widgetWithText(TextButton, 'Smart crop');
     if (crop.evaluate().isNotEmpty) {
-      await t.tap(crop.first);
-      await settle(t, 4);
+      await t.ensureVisible(crop.first);
+      await settle(t, 1);
+      await t.tap(crop.first, warnIfMissed: false);
+      await settle(t, 6);
       await shot(t, '08_smart_crop');
     }
   });

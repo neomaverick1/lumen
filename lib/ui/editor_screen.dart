@@ -177,6 +177,9 @@ class _EditorScreenState extends State<EditorScreen> {
     );
   }
 
+  static String _objectLabel(FoundObject o) =>
+      o.confidence > 0 ? '${o.label} ${(o.confidence * 100).round()}%' : 'Main subject';
+
   @override
   void dispose() {
     _debounce?.cancel();
@@ -230,9 +233,7 @@ class _EditorScreenState extends State<EditorScreen> {
                         (_crop?.height ?? _source!.height.toDouble()),
                       ),
                       boxes: [
-                        ...?_objects?.map(
-                          (o) => OverlayBox(o.box, '${o.label} ${(o.confidence * 100).round()}%', coral),
-                        ),
+                        ...?_objects?.map((o) => OverlayBox(o.box, _objectLabel(o), coral)),
                         ...?_lines?.map((l) => OverlayBox(l.box, null, amber)),
                       ],
                       busy: _busy,
@@ -504,7 +505,7 @@ class _EditorScreenState extends State<EditorScreen> {
                 style: const TextStyle(color: cream, fontWeight: FontWeight.w700),
               ),
               subtitle: Text(
-                '${(o.confidence * 100).round()}% · ${o.box.width.round()}×${o.box.height.round()} px',
+                '${o.confidence > 0 ? '${(o.confidence * 100).round()}% · ' : ''}${o.box.width.round()}×${o.box.height.round()} px',
                 style: const TextStyle(color: muted),
               ),
               trailing: TextButton(
