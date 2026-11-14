@@ -501,7 +501,7 @@ class _EditorScreenState extends State<EditorScreen> {
               contentPadding: EdgeInsets.zero,
               leading: const Icon(Icons.crop_portrait_rounded, color: coral),
               title: Text(
-                o.label,
+                o.confidence > 0 ? o.label : 'Main subject',
                 style: const TextStyle(color: cream, fontWeight: FontWeight.w700),
               ),
               subtitle: Text(
