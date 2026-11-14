@@ -93,8 +93,8 @@ void main() {
     await shot(t, '06_text_scan');
     await back(t);
 
-    // Objects + smart crop on the cat.
-    await t.tap(find.byKey(const Key('photo_cat')));
+    // Objects + smart crop on the espresso shot.
+    await t.tap(find.byKey(const Key('photo_coffee')));
     await settle(t, 3);
     await t.tap(find.byKey(const Key('tab_AI')));
     await settle(t, 1);

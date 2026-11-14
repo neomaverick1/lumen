@@ -3,16 +3,16 @@
 A **Flutter** photo editor with **on-device AI**. Smart Enhance fixes a photo in one tap; **Google ML Kit** auto-tags your library for smart search, reads text from photos and finds objects for a one-tap smart crop. Nothing is uploaded: every model runs on the phone.
 
 <p>
-  <img src="docs/screenshots/01_library.png" width="180" alt="Library with AI tags">
-  <img src="docs/screenshots/02_enhance_compare.png" width="180" alt="Smart Enhance with before/after">
-  <img src="docs/screenshots/03_looks.png" width="180" alt="Looks">
-  <img src="docs/screenshots/04_adjust.png" width="180" alt="Manual adjustments">
+  <img src="docs/screenshots/01_library.jpg" width="180" alt="Library with AI tags">
+  <img src="docs/screenshots/02_enhance_compare.jpg" width="180" alt="Smart Enhance with before/after">
+  <img src="docs/screenshots/03_looks.jpg" width="180" alt="Looks">
+  <img src="docs/screenshots/04_adjust.jpg" width="180" alt="Manual adjustments">
 </p>
 <p>
-  <img src="docs/screenshots/05_tags.png" width="180" alt="Auto-tags">
-  <img src="docs/screenshots/06_text_scan.png" width="180" alt="Text scan">
-  <img src="docs/screenshots/07_objects.png" width="180" alt="Object detection">
-  <img src="docs/screenshots/08_smart_crop.png" width="180" alt="Smart crop">
+  <img src="docs/screenshots/05_tags.jpg" width="180" alt="Auto-tags">
+  <img src="docs/screenshots/06_text_scan.jpg" width="180" alt="Text scan">
+  <img src="docs/screenshots/07_objects.jpg" width="180" alt="Object detection">
+  <img src="docs/screenshots/08_smart_crop.jpg" width="180" alt="Smart crop">
 </p>
 
 These screenshots are taken automatically on an **Android emulator in CI** while an integration test drives the app with the real ML Kit models ([`integration_test/screenshots_test.dart`](integration_test/screenshots_test.dart)).
