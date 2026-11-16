@@ -46,11 +46,21 @@ jobs:
       - run: |
           flutter build apk --release --split-per-abi --target-platform android-arm64 \
             --build-name 1.0.${{ github.run_number }} --build-number ${{ github.run_number }}
-          cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk Lumen.apk
+          flutter build appbundle --release \
+            --build-name 1.0.${{ github.run_number }} --build-number ${{ github.run_number }}
+      - name: Sign the APK and the Google Play bundle
+        env:
+          UPLOAD_JKS_B64: ${{ secrets.UPLOAD_JKS_B64 }}
+          UPLOAD_STORE_PASSWORD: ${{ secrets.UPLOAD_STORE_PASSWORD }}
+          UPLOAD_KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+          UPLOAD_KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
+        run: bash .github/sign-android.sh build/app/outputs/flutter-apk/app-arm64-v8a-release.apk Lumen.apk build/app/outputs/bundle/release/app-release.aab Lumen-Play.aab
       - uses: actions/upload-artifact@v4
         with:
           name: apk
-          path: Lumen.apk
+          path: |
+            Lumen.apk
+            Lumen-Play.aab
 
   # Runs the app on a real Android emulator with the real ML Kit models and saves screenshots.
   on-device:
@@ -107,7 +117,7 @@ jobs:
           path: Lumen-iOS-Simulator.zip
 
   web:
-    needs: test
+    needs: [test, android]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -118,6 +128,12 @@ jobs:
       - run: |
           flutter build web --release --no-web-resources-cdn --base-href /lumen/
           cp build/web/index.html build/web/404.html
+      - uses: actions/download-artifact@v4
+        with:
+          name: apk
+          path: app-download
+      - name: Put the APK and the Get the app button on the site
+        run: node .github/add-download.mjs build/web app-download/Lumen.apk "Lumen" web/icons/Icon-192.png /${{ github.event.repository.name }}/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: build/web
@@ -155,7 +171,9 @@ jobs:
           name: Lumen 1.0.${{ github.run_number }}
           make_latest: true
           body: |
-            **Android:** download `Lumen.apk` and open it on your phone (allow installs from your browser). All AI runs on the phone.
+            **Android:** download `Lumen.apk` (also on the website's **Android app** button) and open it on your phone (allow installs from your browser). All AI runs on the phone.
+            **Google Play:** `Lumen-Play.aab` is the bundle for the Play Console.
             **iPhone simulator:** unzip `Lumen-iOS-Simulator.zip` and drag `Runner.app` onto a booted simulator.
             **Web (editing only):** https://neomaverick1.github.io/lumen/
           files: dist/*
+
